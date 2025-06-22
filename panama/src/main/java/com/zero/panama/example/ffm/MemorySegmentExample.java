@@ -1,6 +1,10 @@
-package com.zero.panama.example;
+package com.zero.panama.example.ffm;
 
-import java.lang.foreign.*;
+import java.lang.foreign.Arena;
+import java.lang.foreign.MemorySegment;
+import java.lang.foreign.SegmentAllocator;
+import java.lang.foreign.ValueLayout;
+import java.nio.charset.StandardCharsets;
 import java.util.concurrent.StructuredTaskScope;
 
 /**
@@ -57,11 +61,19 @@ public class MemorySegmentExample {
             MemorySegment longSegment = arena.allocate(ValueLayout.JAVA_LONG);
             longSegment.set(ValueLayout.JAVA_LONG, 0, 1024);
             System.out.println(longSegment.get(ValueLayout.JAVA_LONG, 0));
-            
-            
+
+            // 分配10个字节，设置字符串值
+            MemorySegment seg = arena.allocate(10);
+            seg.setString(0, "Hello");
+            seg.setString(4, "World");
+            String value = seg.getString(0, StandardCharsets.UTF_8);
+            System.out.println("string value: " + value);
+
             // 根据本地内存地址，创建出指针内存段（谨慎使用）
             long address = 0x1232131; // 假的内存地址
             MemorySegment prtSegment = MemorySegment.ofAddress(address);
+
+
         }
 
         // Arena 释放后，其分配出的 MemorySegment 将无法使用，会直接抛出异常

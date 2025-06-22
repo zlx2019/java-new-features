@@ -1,0 +1,12 @@
+[package]
+name = "rust_dyn_lib"
+version = "0.1.0"
+edition = "2024"
+
+# 动态库
+[lib]
+# 动态库名称
+name = "_rust_dyn"
+crate-type = ["cdylib"] # 兼容C
+
+

@@ -34,11 +34,11 @@
                     <target>${java.version}</target>
                     <encoding>${project.build.sourceEncoding}</encoding>
                     <compilerArgs>
+                        <!-- 开启预览阶段的特性支持 -->
+                        <arg>--enable-preview</arg>
                         <!-- 开启一些jdk内部未对外开放的资源 -->
                         <arg>--add-exports</arg>
                         <arg>java.base/jdk.internal.vm=ALL-UNNAMED</arg>
-                        <!-- 开启预览阶段的特性支持 -->
-                        <arg>--enable-preview</arg>
                     </compilerArgs>
 
                 </configuration>

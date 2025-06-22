@@ -1,4 +1,4 @@
-package com.zero.panama.example;
+package com.zero.panama.example.ffm;
 
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;

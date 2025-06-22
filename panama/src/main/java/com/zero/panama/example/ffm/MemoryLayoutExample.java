@@ -1,6 +1,7 @@
-package com.zero.panama.example;
+package com.zero.panama.example.ffm;
 
 import java.lang.foreign.*;
+import java.lang.invoke.VarHandle;
 
 /**
  * {@link MemoryLayout} 描述了一块内存中数据的组织结构，如大小、对齐和字节序等。可以简单理解为 C 语言中的结构体，注意：它需要手动对齐。
@@ -70,5 +71,49 @@ public class MemoryLayoutExample {
         System.out.println("long: " + segment.get(ValueLayout.JAVA_LONG, 8));
         System.out.println("float: " + segment.get(ValueLayout.JAVA_FLOAT, 16));
         System.out.println("double: " + segment.get(ValueLayout.JAVA_DOUBLE, 24));
+
+        // MARK: 联合布局
+        // 对 C 比较熟悉的话应该能意识到这个类型的布局是不需要对齐的
+        UnionLayout unionLayout = MemoryLayout.unionLayout(
+                ValueLayout.JAVA_INT,
+                ValueLayout.JAVA_LONG
+        );
+        System.out.println("union layout size: " + unionLayout.byteSize());
+        MemorySegment unionSgm = Arena.global().allocate(unionLayout);
+        unionSgm.set(ValueLayout.JAVA_INT, 0, 12345);
+        System.out.println("union layout value（int）: " + (int) unionSgm.get(ValueLayout.JAVA_INT, 0));
+        System.out.println("union layout value（long）: " + (long) unionSgm.get(ValueLayout.JAVA_LONG, 0));
+
+        // MARK 操作布局中的字段
+        // 定义一个简单的复合布局
+        StructLayout userLayout = MemoryLayout.structLayout(
+                ValueLayout.JAVA_INT.withName("age"),
+                MemoryLayout.paddingLayout(4),
+                ValueLayout.JAVA_LONG.withName("userId")
+        );
+        // 为布局分配内存段
+        MemorySegment userSegment = Arena.global().allocate(userLayout);
+        // 想要操作某个字段，就要先获取其 ValHandle
+        // 根据 name 获取字段 handle
+        VarHandle ageHandle = userLayout.varHandle(MemoryLayout.PathElement.groupElement("age"));
+        // 根据 位置 获取字段 handle
+        VarHandle userIdHandle = userLayout.varHandle(MemoryLayout.PathElement.groupElement(2));
+
+        // 通过 handle 设置值 (内存段, offset, value)，offset 通常设置0，因为VarHandle 已经包含了字段在结构体中的偏移信息
+        ageHandle.set(userSegment, 0, 18);
+        userIdHandle.set(userSegment, 0, 6378219321L);
+
+        // 获取值
+        int age =  (int) ageHandle.get(userSegment, 0);
+        long userId = (long) userIdHandle.get(userSegment, 0);
+        System.out.println("age: " + age);
+        System.out.println("userId: " + userId);
+
+        // 也可以获取字段的偏移量
+        long offset = userLayout.byteOffset(MemoryLayout.PathElement.groupElement("userId"));
+        System.out.println("userId offset: " + offset);
+
+
+
     }
 }
