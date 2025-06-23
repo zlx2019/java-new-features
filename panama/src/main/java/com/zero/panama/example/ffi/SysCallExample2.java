@@ -1,7 +1,6 @@
 package com.zero.panama.example.ffi;
-import java.lang.foreign.Arena;
-import java.lang.foreign.MemorySegment;
-import static com.zero.panama.generate.unix.unistd_h.*;
+
+import static com.zero.panama.generate.unix.unistd_h.getpid;
 
 
 /**

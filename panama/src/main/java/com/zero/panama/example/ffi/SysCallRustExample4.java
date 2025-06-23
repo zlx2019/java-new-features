@@ -3,7 +3,6 @@ package com.zero.panama.example.ffi;
 import java.io.File;
 import java.lang.foreign.*;
 import java.lang.invoke.MethodHandle;
-import java.nio.charset.StandardCharsets;
 
 /**
  * 通过 Panama 调用本地函数（Rust）
@@ -22,7 +21,7 @@ public class SysCallRustExample4 {
         System.out.println("call add result: " + sum);
 
         String res = callStrToUpper("Hello, world!");
-        System.out.println("call upper result: " + res);
+        System.out.println("Java receive: " + res);
     }
 
     /**
@@ -37,20 +36,28 @@ public class SysCallRustExample4 {
     }
 
     /**
-     * 调用 Rust 动态库中的 字符串处理函数
+     * 调用 Rust 动态库中的 str_to_upper 函数
+     * 传入一个字符串，接收一个新的字符串
      * @param input 参数内容
      */
     public static String callStrToUpper(String input) throws Throwable {
+        // 查找函数地址
         MemorySegment toUpperSgm = SymbolLookup.loaderLookup().findOrThrow("str_to_upper");
+        // 函数描述
         FunctionDescriptor toUpperDesc = FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+        // 绑定函数
         MethodHandle toUpperHandle = Linker.nativeLinker().downcallHandle(toUpperSgm, toUpperDesc);
-        // 函数参数
+        // 构建函数参数（使用堆外内存）
         MemorySegment inputSegment = Arena.global().allocateFrom(input);
-        // 函数返回值
-        MemorySegment resultSegment = (MemorySegment) toUpperHandle.invokeExact(inputSegment);
-//        String result = resultSegment.getString(0);
-//        System.out.println(result);
-        return null;
+        // 调用函数
+        MemorySegment resultSegment = (MemorySegment) toUpperHandle.invoke(inputSegment);
+
+        // 返回值是字符串（指针类型），从该地址读取转换为字符串
+        String resStr = resultSegment.reinterpret(Integer.MAX_VALUE).getString(0);
+
+        // 释放Rust字符串内存
+        freeRustStr(resultSegment);
+        return resStr;
     }
 
     public static void freeRustStr(MemorySegment segment) throws Throwable {

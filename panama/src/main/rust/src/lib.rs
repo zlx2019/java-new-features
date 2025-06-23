@@ -27,8 +27,8 @@ pub extern "C" fn str_to_upper(input: *const c_char) -> *mut c_char {
             Ok(v) => v,
             Err(_) => return std::ptr::null_mut()
         };
-        println!("input: {}", rs_string);
-        let text = format!("Rust after: {}", rs_string.to_uppercase());
+        println!("rust: input str: {}", rs_string);
+        let text = format!("{}", rs_string.to_uppercase());
         match CString::new(text) {
             Ok(v) => v.into_raw(),
             Err(_) => std::ptr::null_mut()
