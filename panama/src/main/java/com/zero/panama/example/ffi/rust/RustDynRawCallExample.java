@@ -1,19 +1,19 @@
-package com.zero.panama.example.ffi;
+package com.zero.panama.example.ffi.rust;
 
 import java.io.File;
 import java.lang.foreign.*;
 import java.lang.invoke.MethodHandle;
 
 /**
- * 通过 Panama 调用本地函数（Rust）
+ * 通过 Java Panama 原生调用 Rust 动态库
  *
  * @author Zero.
  * <p> Created on 2025/6/22 15:20 </p>
  */
-public class SysCallRustExample4 {
+public class RustDynRawCallExample {
     static {
         // 加载动态库
-        System.load(new File("panama/src/main/resources/lib_rust_dyn.dylib").getAbsolutePath());
+        System.load(new File("panama/src/main/resources/librust.dylib").getAbsolutePath());
     }
 
     public static void main(String[] args) throws Throwable {
@@ -61,7 +61,7 @@ public class SysCallRustExample4 {
     }
 
     public static void freeRustStr(MemorySegment segment) throws Throwable {
-        MemorySegment freeRustStrSegment = SymbolLookup.loaderLookup().findOrThrow("free_str");
+        MemorySegment freeRustStrSegment = SymbolLookup.loaderLookup().findOrThrow("free_mem");
         FunctionDescriptor freeRustStrDesc = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS);
         MethodHandle freeHandle = Linker.nativeLinker().downcallHandle(freeRustStrSegment, freeRustStrDesc);
         freeHandle.invokeExact(segment);

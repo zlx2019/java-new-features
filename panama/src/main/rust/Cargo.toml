@@ -2,11 +2,18 @@
 name = "rust_dyn_lib"
 version = "0.1.0"
 edition = "2024"
+description = "Rust dynamic library"
 
-# 动态库
+
 [lib]
 # 动态库名称
-name = "_rust_dyn"
-crate-type = ["cdylib"] # 兼容C
+name = "rust"
+
+# 动态库类型
+# cdylib: 生成C动态库 用于FFI，共其他语言调用
+# staticlib: 生成静态库, 用于FFI
+# dylib: Rust动态库，用于Rust程序之间的动态链接
+# rlib: 生成Rust标准库
+crate-type = ["cdylib", "rlib"] # 兼容C
 
 
