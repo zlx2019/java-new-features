@@ -12,26 +12,26 @@
     <description>
         Java Virtual Thread
     </description>
-<!--    <build>-->
-<!--        <plugins>-->
-<!--            <plugin>-->
-<!--                <groupId>org.apache.maven.plugins</groupId>-->
-<!--                <artifactId>maven-compiler-plugin</artifactId>-->
-<!--                <version>3.14.0</version>-->
-<!--                <configuration>-->
-<!--                    <parameters>true</parameters>-->
-<!--                    <source>${java.version}</source>-->
-<!--                    <target>${java.version}</target>-->
-<!--                    <encoding>${project.build.sourceEncoding}</encoding>-->
-<!--                    <compilerArgs>-->
-<!--                        &lt;!&ndash; 开启一些jdk内部未对外开放的资源 &ndash;&gt;-->
-<!--                        <arg>&#45;&#45;add-exports</arg>-->
-<!--                        <arg>java.base/jdk.internal.vm=ALL-UNNAMED</arg>-->
-<!--                        &lt;!&ndash; 开启预览阶段的特性支持 &ndash;&gt;-->
-<!--                        <arg>&#45;&#45;enable-preview</arg>-->
-<!--                    </compilerArgs>-->
-<!--                </configuration>-->
-<!--            </plugin>-->
-<!--        </plugins>-->
-<!--    </build>-->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.14.0</version>
+                <configuration>
+                    <parameters>true</parameters>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                    <compilerArgs>
+                        <!-- 开启一些jdk内部未对外开放的资源 -->
+                        <arg>--add-exports</arg>
+                        <arg>java.base/jdk.internal.vm=ALL-UNNAMED</arg>
+                        <!-- 开启预览阶段的特性支持 -->
+                        <arg>--enable-preview</arg>
+                    </compilerArgs>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

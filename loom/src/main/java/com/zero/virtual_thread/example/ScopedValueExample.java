@@ -1,4 +1,4 @@
-package com.zero.vt.example;
+package com.zero.virtual_thread.example;
 
 /**
  * {@link ScopedValue<?>} 使用示例

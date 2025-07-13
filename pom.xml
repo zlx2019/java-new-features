@@ -40,7 +40,6 @@
                         <arg>--add-exports</arg>
                         <arg>java.base/jdk.internal.vm=ALL-UNNAMED</arg>
                     </compilerArgs>
-
                 </configuration>
             </plugin>
         </plugins>

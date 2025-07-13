@@ -1,4 +1,4 @@
-package com.zero.sc.example;
+package com.zero.structural_concurrency.example;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.StructuredTaskScope;

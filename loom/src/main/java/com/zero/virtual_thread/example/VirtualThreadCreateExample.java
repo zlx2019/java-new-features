@@ -1,4 +1,4 @@
-package com.zero.vt.example;
+package com.zero.virtual_thread.example;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

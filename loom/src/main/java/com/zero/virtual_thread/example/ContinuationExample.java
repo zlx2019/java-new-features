@@ -1,4 +1,4 @@
-package com.zero.vt.example;
+package com.zero.virtual_thread.example;
 
 import jdk.internal.vm.Continuation;
 import jdk.internal.vm.ContinuationScope;
