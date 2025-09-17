@@ -102,7 +102,7 @@ public class MemorySegmentExample {
         // MARK Shared Arena：支持多线程使用的版本，需要手动关闭，如果在关闭的过程中仍有线程在使用其分配出来的 MemorySegment 则会关闭失败
         MemorySegment uaf = null;
         // 建议与结构化并发API一同使用，示例如下
-        try(StructuredTaskScope<String> scope = new StructuredTaskScope<>(); Arena sharedArena = Arena.ofShared()){
+        try(StructuredTaskScope<String, Void> scope = StructuredTaskScope.open(); Arena sharedArena = Arena.ofShared()){
             // 创建任务1
             StructuredTaskScope.Subtask<String> task1 = scope.fork(() -> {
                 MemorySegment _ = sharedArena.allocate(1024);

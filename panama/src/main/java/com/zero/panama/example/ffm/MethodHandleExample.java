@@ -21,17 +21,31 @@ public class MethodHandleExample {
     public static void main(String[] args) throws Throwable {
         // 最简单的方案就是使用 Lookup 来查找现有的 方法句柄
         MethodHandles.Lookup lookup = MethodHandles.lookup();
-        // 查找普通方法的句柄（也称为虚方法）
+        // MARK  查找普通方法的句柄（也称为虚方法）
         MethodHandle methodHandle = lookup.findVirtual(Accumulator.class, "add", MethodType.methodType(long.class, int.class, int.class));
         // 执行方法句柄，对于虚方法的执行，需要在参数列表最前面传入一个 实例对象，用于多态的实现.
         Accumulator accumulator = new Accumulator(20);
         long addRes = (long) methodHandle.invokeExact(accumulator, 10, 100);
         System.out.println(addRes);
 
-        // 查找静态方法的句柄
+        // MARK 查找静态方法的句柄
         MethodHandle handle = lookup.findStatic(String.class, "join", MethodType.methodType(String.class, CharSequence.class, CharSequence[].class));
         String joins = (String) handle.invoke("hello, ", "world, ", "panama!");
         System.out.println(joins);
+
+        // MARK 查找构造方法
+        MethodHandle constructor = lookup.findConstructor(Accumulator.class, MethodType.methodType(void.class, int.class));
+        Accumulator instance = (Accumulator) constructor.invokeExact(10);
+        System.out.println(instance.c);
+
+        // MARK 查找 getter & setter 方法
+        MethodHandle setNameHandle = lookup.findSetter(Person.class, "name", String.class);
+        MethodHandle getNameHandle = lookup.findGetter(Person.class, "name", String.class);
+        Person person = new Person();
+        setNameHandle.invokeExact(person, "panama");
+        String name = (String) getNameHandle.invokeExact(person);
+        System.out.println(name);
+
     }
 
 
@@ -42,6 +56,16 @@ public class MethodHandleExample {
         }
          long add(int a, int b) {
             return (long) a + b + c;
+        }
+    }
+
+    static class Person {
+        private String name;
+        public void setName(String name) {
+            this.name = name;
+        }
+        public String getName() {
+            return name;
         }
     }
 }
