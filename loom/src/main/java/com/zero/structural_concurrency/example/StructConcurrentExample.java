@@ -142,19 +142,16 @@ public class StructConcurrentExample {
     /// 适用于仅需要获取最快完成的任务结果
     static void waitCompletedFirstTask() throws InterruptedException, ExecutionException {
         try (var scope = StructuredTaskScope.open(StructuredTaskScope.Joiner.anySuccessfulResultOrThrow())) {
-            scope.fork(()-> getUserId());
-            scope.fork(()-> getOrderId());
+            scope.fork(()-> mayFailTask());
+            scope.fork(()-> mayFailTask());
             // 等待任意一个任务完成
-            Object result = scope.join();
-            System.out.println("The fastest task to complete: " + result);
+            try {
+                Object result = scope.join();
+                System.out.println("The fastest task to complete: " + result);
+            } catch (StructuredTaskScope.FailedException e) {
+                System.out.println("All tasks failed: " + e.getMessage());
+            }
         }
-
-//        try (var scope = new StructuredTaskScope.ShutdownOnSuccess<Long>()) {
-//            var userTask = scope.fork(()-> getUserId());
-//            var orderTask = scope.fork(()-> getOrderId());
-//            Long result = scope.join().result();
-//            System.out.println("Fast task result: " + result);
-//        }
     }
 
     ///  使用结构化并发协调多个任务的执行
