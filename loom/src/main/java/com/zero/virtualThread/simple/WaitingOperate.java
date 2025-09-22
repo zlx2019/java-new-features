@@ -1,4 +1,4 @@
-package com.zero.virtual_thread.simple;
+package com.zero.virtualThread.simple;
 
 import jdk.internal.vm.Continuation;
 
@@ -6,8 +6,8 @@ import java.time.Duration;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import static com.zero.virtual_thread.simple.SimpleVirtualScheduler.CURRENT_VT;
-import static com.zero.virtual_thread.simple.SimpleVirtualThread.SCOPE;
+import static com.zero.virtualThread.simple.SimpleVirtualScheduler.CURRENT_VT;
+import static com.zero.virtualThread.simple.SimpleVirtualThread.SCOPE;
 
 
 /**

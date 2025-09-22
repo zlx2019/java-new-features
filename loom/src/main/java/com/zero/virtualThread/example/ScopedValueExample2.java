@@ -1,4 +1,4 @@
-package com.zero.vt.example;
+package com.zero.virtualThread.example;
 
 import java.util.UUID;
 

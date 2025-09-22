@@ -1,4 +1,4 @@
-package com.zero.structural_concurrency.example;
+package com.zero.concurrency;
 
 import java.util.Arrays;
 import java.util.List;
@@ -9,10 +9,8 @@ import java.util.random.RandomGenerator;
 import java.util.stream.Stream;
 
 /**
- * 结构化并发
- *  Joiner
- *      -
- *      -
+ * 结构化并发各种场景案例
+ *
  * @author Zero.
  * <p> Created on 2025/6/19 10:52 </p>
  */

@@ -1,4 +1,4 @@
-package com.zero.virtual_thread.example;
+package com.zero.virtualThread.example;
 
 import jdk.internal.vm.Continuation;
 import jdk.internal.vm.ContinuationScope;
@@ -25,6 +25,6 @@ import java.util.concurrent.Executor;
  * @author Zero.
  * <p> Created on 2025/6/18 14:35 </p>
  */
-public class VirtualThread {
+public class WhatIsVirtualThread {
 
 }

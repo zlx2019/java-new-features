@@ -1,4 +1,4 @@
-package com.zero.virtual_thread.simple;
+package com.zero.virtualThread.simple;
 
 import java.time.Duration;
 import java.util.concurrent.CountDownLatch;
