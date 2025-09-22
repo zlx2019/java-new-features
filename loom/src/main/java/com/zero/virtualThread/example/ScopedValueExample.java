@@ -41,6 +41,6 @@ public class ScopedValueExample {
 
         });
         // 不处于 特定作用域内是不可访问 USER的
-        System.out.println(Thread.currentThread().getName() + ": " + USER.orElse(null));
+        System.out.println(Thread.currentThread().getName() + ": " + USER.orElse(""));
     }
 }
