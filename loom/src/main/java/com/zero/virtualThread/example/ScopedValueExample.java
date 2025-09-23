@@ -1,7 +1,11 @@
 package com.zero.virtualThread.example;
 
 /**
- * {@link ScopedValue<?>} 使用示例
+ * {@link ScopedValue} 作用域值, 一个可以不使用方法参数的情况下并且安全高效共享数据。
+ * {@link ThreadLocal} 线程局部变量三大缺陷：
+ *  - 可变性：只要能访问到的线程都可以随意更改值。
+ *  - 无界生命周期：需要手动 remove, 否则可能会产生数据的污染性。
+ *  - 继承成本昂贵：不适用于存储大对象, 当线程量过多时会导致内存占用显著增加。
  *
  * @author Zero.
  * <p> Created on 2025/6/17 18:40 </p>
